@@ -1,11 +1,12 @@
 import Sequelize from "sequelize";
 
 //Importando os models
+import User from '../app/models/User'
 
 import databaseConfig from "../config/database";
 
 //Colocar todos os models
-// const models = [User, File, Product, Order, OrderProduct];
+const models = [User];
 
 class Database {
   constructor() {
