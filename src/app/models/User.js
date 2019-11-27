@@ -34,10 +34,9 @@ class User extends Model {
     return jwt.sign({ id: this.id }, process.env.APP_SECRET);
   }
 
-  // static associate(models) {
-  //   this.hasMany(models.Product, { foreignKey: "user_id", as: "products" });
-  //   this.hasMany(models.Order, { foreignKey: "user_id", as: "orders" });
-  // }
+  static associate(models) {
+    this.hasMany(models.Product, { foreignKey: "user_id", as: "products" });
+  }
 }
 
 export default User;
