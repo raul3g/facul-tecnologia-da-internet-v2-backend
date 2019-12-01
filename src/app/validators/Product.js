@@ -10,7 +10,6 @@ export const ProductStore = async (req, res, next) => {
         .required()
         .min(10),
       price: Yup.number().required(),
-      stock: Yup.number().required()
     });
 
     await schema.validate(req.body, { abortEarly: false });
@@ -28,7 +27,6 @@ export const ProductUpdate = async (req, res, next) => {
       name: Yup.string().min(6),
       description: Yup.string().min(10),
       price: Yup.number(),
-      stock: Yup.number()
     });
 
     await schema.validate(req.body, { abortEarly: false });
