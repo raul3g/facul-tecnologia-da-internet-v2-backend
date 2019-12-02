@@ -3,20 +3,19 @@ import User from "../models/User";
 import File from "../models/File";
 
 class ProductController {
-
   //Listando os produtos
-  async index(req,res ){
+  async index(req, res) {
     let limit = req.query.limit || 4;
-    let offset = limit * ( req.query.offset || 0 );
+    let offset = limit * (req.query.offset || 0);
     const products = await Product.findAll({
-      order: [ ['createdAt', 'DESC'] ],
+      order: [["createdAt", "DESC"]],
       limit,
-      offset,
+      offset
     });
     return res.json(products);
   }
 
- //Criando um produto
+  //Criando um produto
   async store(req, res) {
     let user_id = parseInt(req.params.user_id);
     //Verifica se o user tem permissao para criar produtos
@@ -49,7 +48,7 @@ class ProductController {
       price
     });
     //Retorna o produto criado
-    return res.json(products);
+    return res.status(201).json(products);
   }
 
   //Retorna os dados de um produto
@@ -71,7 +70,6 @@ class ProductController {
 
   //Atualiza os dados do produto
   async update(req, res) {
-
     const product = await Product.findByPk(parseInt(req.params.id));
     //Verifica se o produto existe
     if (!product) {
@@ -91,11 +89,11 @@ class ProductController {
     if (req.file) {
       const { originalname, filename: path } = req.file;
       //Cria uma nova imagem pro produto
-      const file = await File.create({  
+      const file = await File.create({
         name: originalname,
         path
       });
-      
+
       data.img_id = file.id;
       const idDestroy = product.id;
       //Atualiza os dados do produto
@@ -103,17 +101,15 @@ class ProductController {
 
       //Deleta a imagem antiga
       const fileDestroy = await File.findByPk(idDestroy);
-      
-      if(fileDestroy){
+
+      if (fileDestroy) {
         await fileDestroy.destroy();
       }
-
-    
-    }else{
+    } else {
       //Atualiza os dados do produto
       newProduct = await product.update(data);
     }
-    
+
     //Retorna o produto
     return res.json(newProduct);
   }
