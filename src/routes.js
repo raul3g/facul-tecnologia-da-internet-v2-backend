@@ -8,6 +8,7 @@ import SessionController from "./app/controllers/SessionController";
 import UserController from "./app/controllers/UserController";
 import ProductController from "./app/controllers/ProductController";
 import StockController from "./app/controllers/StockController";
+import OrderController from "./app/controllers/OrderController";
 
 //Importando os Validators
 import { SessionStore } from "./app/validators/Session";
@@ -15,6 +16,7 @@ import { UserStore, UserUpdate } from "./app/validators/User";
 import { UserStore, UserUpdate } from "./app/validators/User";
 import { ProductStore, ProductUpdate } from "./app/validators/Product";
 import { StockStore, StockUpdate } from "./app/validators/Stock";
+import { OrderStore, OrderUpdate } from "./app/validators/Order";
 
 const routes = Router();
 const upload = multer(multerConfig);
@@ -47,5 +49,15 @@ routes.post("/products/:product_id/stocks", StockStore, StockController.store);
 routes.get("/stocks/:id", StockController.show);
 routes.put("/stocks/:id", StockUpdate, StockController.update);
 routes.delete("/stocks/:id", StockController.destroy);
+
+//Order
+routes.post("/products/:product_id/orders", OrderStore, OrderController.store);
+routes.get("/orders", OrderController.index);
+routes.put(
+  "/products/:product_id/orders/:id",
+  OrderUpdate,
+  OrderController.update
+);
+routes.delete("/products/:product_id/orders/:id", OrderController.destroy);
 
 export default routes;

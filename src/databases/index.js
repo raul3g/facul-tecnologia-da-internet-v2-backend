@@ -5,11 +5,13 @@ import User from "../app/models/User";
 import Product from "../app/models/Product";
 import File from "../app/models/File";
 import Stock from "../app/models/Stock";
+import Order from "../app/models/Order";
+import OrderProduct from "../app/models/OrderProduct";
 
 import databaseConfig from "../config/database";
 
 //Colocar todos os models
-const models = [User, Product, File, Stock];
+const models = [User, Product, File, Stock, Order, OrderProduct];
 
 class Database {
   constructor() {

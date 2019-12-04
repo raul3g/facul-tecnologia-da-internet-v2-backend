@@ -20,12 +20,11 @@ class Product extends Model {
     this.belongsTo(models.User, { foreignKey: "user_id", as: "users" });
 
     this.hasOne(models.Stock, { foreignKey: "product_id", as: "stocks" });
-
-    // this.belongsToMany(models.Order, {
-    //   foreignKey: "product_id",
-    //   through: models.OrderProduct,
-    //   as: "orders"
-    // });
+    this.belongsToMany(models.Order, {
+      foreignKey: "product_id",
+      through: models.OrderProduct,
+      as: "orders"
+    });
   }
 }
 
