@@ -9,6 +9,7 @@ import UserController from "./app/controllers/UserController";
 import ProductController from "./app/controllers/ProductController";
 import StockController from "./app/controllers/StockController";
 import OrderController from "./app/controllers/OrderController";
+import BuyController from "./app/controllers/BuyController";
 
 //Importando os Validators
 import { SessionStore } from "./app/validators/Session";
@@ -26,6 +27,8 @@ routes.post("/users", UserStore, UserController.store);
 
 //Middleware de authentication
 routes.use(Auth);
+
+routes.get("/users/:id", UserController.show);
 
 //Product
 routes.get("/products", ProductController.index);
@@ -59,5 +62,7 @@ routes.put(
   OrderController.update
 );
 routes.delete("/products/:product_id/orders/:id", OrderController.destroy);
+
+routes.post("/orders/:id/buy", BuyController.store);
 
 export default routes;

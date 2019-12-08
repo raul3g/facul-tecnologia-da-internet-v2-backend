@@ -1,6 +1,7 @@
 import Product from "../models/Product";
 import User from "../models/User";
 import File from "../models/File";
+import Stock from "../models/Stock";
 
 class ProductController {
   //Listando os produtos
@@ -8,6 +9,12 @@ class ProductController {
     let limit = req.query.limit || 4;
     let offset = limit * (req.query.offset || 0);
     const products = await Product.findAll({
+      include: [
+        {
+          model: File,
+          as: "files"
+        }
+      ],
       order: [["createdAt", "DESC"]],
       limit,
       offset
@@ -55,10 +62,16 @@ class ProductController {
   async show(req, res) {
     //Procura o produto
     const product = await Product.findByPk(req.params.id, {
-      include: {
-        model: File,
-        as: "files"
-      }
+      include: [
+        {
+          model: File,
+          as: "files"
+        },
+        {
+          model: Stock,
+          as: "stocks"
+        }
+      ]
     });
     //Verifica se o produto existe
     if (!product) {
@@ -110,6 +123,14 @@ class ProductController {
       newProduct = await product.update(data);
     }
 
+    await newProduct.reload({
+      include: [
+        {
+          model: Stock,
+          as: "stocks"
+        }
+      ]
+    });
     //Retorna o produto
     return res.json(newProduct);
   }

@@ -1,6 +1,7 @@
 import Order from "../models/Order";
 import Product from "../models/Product";
 import User from "../models/User";
+import File from "../models/File";
 
 import { Op } from "sequelize";
 
@@ -10,11 +11,12 @@ class OrderController {
     let offset = limit * (req.query.offset || 0);
 
     const orders = await Order.findAll({
-      where: { user_id: req.userId },
+      where: { [Op.and]: [{ user_id: req.userId }, { status: false }] },
       include: [
         {
           model: Product,
-          as: "products"
+          as: "products",
+          include: [{ model: File, as: "files" }]
         }
       ],
       order: [["createdAt", "DESC"]],
